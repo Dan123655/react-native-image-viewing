@@ -24,7 +24,7 @@ import StatusBarManager from "./components/StatusBarManager";
 import useAnimatedComponents from "./hooks/useAnimatedComponents";
 import useImageIndexChange from "./hooks/useImageIndexChange";
 import useRequestClose from "./hooks/useRequestClose";
-import { ImageSource } from "./@types";
+import { Dimensions, ImageSource } from "./@types";
 
 type Props = {
   images: ImageSource[];
@@ -131,6 +131,14 @@ function ImageViewing({
             offset: SCREEN_WIDTH * index,
             index,
           })}
+          onContentSizeChange={(args: Dimensions) =>
+            //@ts-expect-error
+            imageList.current?.scrollToIndex({
+              // quick list offset fix after orientation change
+              index: currentImageIndex,
+              ...args,
+            })
+          }
           renderItem={({ item: imageSrc }) => (
             <ImageItem
               onZoom={onZoom}

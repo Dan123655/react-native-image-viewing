@@ -48,6 +48,12 @@ function ImageViewing({ images, keyExtractor, imageIndex, visible, onRequestClos
             length: SCREEN_WIDTH,
             offset: SCREEN_WIDTH * index,
             index,
+        })} onContentSizeChange={(args) => 
+        //@ts-expect-error
+        imageList.current?.scrollToIndex({
+            // quick list offset fix after orientation change
+            index: currentImageIndex,
+            ...args,
         })} renderItem={({ item: imageSrc }) => (<ImageItem onZoom={onZoom} imageSrc={imageSrc} onRequestClose={onRequestCloseEnhanced} onLongPress={onLongPress} delayLongPress={delayLongPress} swipeToCloseEnabled={swipeToCloseEnabled} doubleTapToZoomEnabled={doubleTapToZoomEnabled}/>)} onMomentumScrollEnd={onScroll} 
     //@ts-ignore
     keyExtractor={(imageSrc, index) => keyExtractor
