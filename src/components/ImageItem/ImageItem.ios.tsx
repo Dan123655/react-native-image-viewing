@@ -24,7 +24,7 @@ import useDoubleTapToZoom from "../../hooks/useDoubleTapToZoom";
 import useImageDimensions from "../../hooks/useImageDimensions";
 
 import { getImageStyles, getImageTransform } from "../../utils";
-import { ImageSource } from "../../@types";
+import { DimensionsStylesProps, ImageSource } from "../../@types";
 import { ImageLoading } from "./ImageLoading";
 
 const SWIPE_CLOSE_OFFSET = 75;
@@ -52,6 +52,7 @@ const ImageItem = ({
   const SCREEN = useWindowDimensions();
   const SCREEN_WIDTH = SCREEN.width;
   const SCREEN_HEIGHT = SCREEN.height;
+  const styles = getStyles({ SCREEN_WIDTH, SCREEN_HEIGHT });
   const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
   const [scaled, setScaled] = useState(false);
@@ -147,7 +148,7 @@ const ImageItem = ({
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = ({ SCREEN_WIDTH, SCREEN_HEIGHT }: DimensionsStylesProps) => ({
   listItem: {
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,

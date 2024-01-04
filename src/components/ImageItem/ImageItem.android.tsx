@@ -22,7 +22,7 @@ import useImageDimensions from "../../hooks/useImageDimensions";
 import usePanResponder from "../../hooks/usePanResponder";
 
 import { getImageStyles, getImageTransform } from "../../utils";
-import { ImageSource } from "../../@types";
+import { DimensionsStylesProps, ImageSource } from "../../@types";
 import { ImageLoading } from "./ImageLoading";
 
 const SWIPE_CLOSE_OFFSET = 75;
@@ -50,6 +50,7 @@ const ImageItem = ({
   const SCREEN = useWindowDimensions();
   const SCREEN_WIDTH = SCREEN.width;
   const SCREEN_HEIGHT = SCREEN.height;
+  const styles = getStyles({ SCREEN_WIDTH, SCREEN_HEIGHT });
   const imageContainer = useRef<ScrollView & NativeMethodsMixin>(null);
   const imageDimensions = useImageDimensions(imageSrc);
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
@@ -142,14 +143,15 @@ const ImageItem = ({
   );
 };
 
-const styles = StyleSheet.create({
-  listItem: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  },
-  imageScrollContainer: {
-    height: SCREEN_HEIGHT * 2,
-  },
-});
+const getStyles = ({ SCREEN_WIDTH, SCREEN_HEIGHT }: DimensionsStylesProps) =>
+  StyleSheet.create({
+    listItem: {
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT,
+    },
+    imageScrollContainer: {
+      height: SCREEN_HEIGHT * 2,
+    },
+  });
 
 export default React.memo(ImageItem);
