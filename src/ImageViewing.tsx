@@ -9,12 +9,12 @@
 import React, { ComponentType, useCallback, useRef, useEffect } from "react";
 import {
   Animated,
-  Dimensions,
   StyleSheet,
   View,
   VirtualizedList,
   ModalProps,
   Modal,
+  useWindowDimensions,
 } from "react-native";
 
 import ImageItem from "./components/ImageItem/ImageItem";
@@ -47,8 +47,6 @@ type Props = {
 const DEFAULT_ANIMATION_TYPE = "fade";
 const DEFAULT_BG_COLOR = "#000";
 const DEFAULT_DELAY_LONG_PRESS = 800;
-const SCREEN = Dimensions.get("screen");
-const SCREEN_WIDTH = SCREEN.width;
 
 function ImageViewing({
   images,
@@ -67,6 +65,8 @@ function ImageViewing({
   HeaderComponent,
   FooterComponent,
 }: Props) {
+  const SCREEN = useWindowDimensions();
+  const SCREEN_WIDTH = SCREEN.width;
   const imageList = useRef<VirtualizedList<ImageSource>>(null);
   const [opacity, onRequestCloseEnhanced] = useRequestClose(onRequestClose);
   const [currentImageIndex, onScroll] = useImageIndexChange(imageIndex, SCREEN);

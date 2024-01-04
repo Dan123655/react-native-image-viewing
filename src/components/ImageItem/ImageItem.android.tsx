@@ -11,11 +11,11 @@ import React, { useCallback, useRef, useState } from "react";
 import {
   Animated,
   ScrollView,
-  Dimensions,
   StyleSheet,
   NativeScrollEvent,
   NativeSyntheticEvent,
   NativeMethodsMixin,
+  useWindowDimensions,
 } from "react-native";
 
 import useImageDimensions from "../../hooks/useImageDimensions";
@@ -27,9 +27,6 @@ import { ImageLoading } from "./ImageLoading";
 
 const SWIPE_CLOSE_OFFSET = 75;
 const SWIPE_CLOSE_VELOCITY = 1.75;
-const SCREEN = Dimensions.get("window");
-const SCREEN_WIDTH = SCREEN.width;
-const SCREEN_HEIGHT = SCREEN.height;
 
 type Props = {
   imageSrc: ImageSource;
@@ -50,6 +47,9 @@ const ImageItem = ({
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true,
 }: Props) => {
+  const SCREEN = useWindowDimensions();
+  const SCREEN_WIDTH = SCREEN.width;
+  const SCREEN_HEIGHT = SCREEN.height;
   const imageContainer = useRef<ScrollView & NativeMethodsMixin>(null);
   const imageDimensions = useImageDimensions(imageSrc);
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);

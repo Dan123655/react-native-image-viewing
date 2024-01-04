@@ -10,7 +10,6 @@ import React, { useCallback, useRef, useState } from "react";
 
 import {
   Animated,
-  Dimensions,
   ScrollView,
   StyleSheet,
   View,
@@ -18,6 +17,7 @@ import {
   NativeSyntheticEvent,
   TouchableWithoutFeedback,
   GestureResponderEvent,
+  useWindowDimensions,
 } from "react-native";
 
 import useDoubleTapToZoom from "../../hooks/useDoubleTapToZoom";
@@ -29,9 +29,6 @@ import { ImageLoading } from "./ImageLoading";
 
 const SWIPE_CLOSE_OFFSET = 75;
 const SWIPE_CLOSE_VELOCITY = 1.55;
-const SCREEN = Dimensions.get("screen");
-const SCREEN_WIDTH = SCREEN.width;
-const SCREEN_HEIGHT = SCREEN.height;
 
 type Props = {
   imageSrc: ImageSource;
@@ -52,6 +49,9 @@ const ImageItem = ({
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true,
 }: Props) => {
+  const SCREEN = useWindowDimensions();
+  const SCREEN_WIDTH = SCREEN.width;
+  const SCREEN_HEIGHT = SCREEN.height;
   const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
   const [scaled, setScaled] = useState(false);

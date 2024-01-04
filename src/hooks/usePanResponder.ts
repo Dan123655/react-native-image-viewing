@@ -14,6 +14,7 @@ import {
   GestureResponderHandlers,
   NativeTouchEvent,
   PanResponderGestureState,
+  useWindowDimensions,
 } from "react-native";
 
 import { Position } from "../@types";
@@ -23,11 +24,6 @@ import {
   getImageTranslate,
   getImageDimensionsByTranslate,
 } from "../utils";
-
-const SCREEN = Dimensions.get("window");
-const SCREEN_WIDTH = SCREEN.width;
-const SCREEN_HEIGHT = SCREEN.height;
-const MIN_DIMENSION = Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 const SCALE_MAX = 2;
 const DOUBLE_TAP_DELAY = 300;
@@ -52,6 +48,10 @@ const usePanResponder = ({
 }: Props): Readonly<
   [GestureResponderHandlers, Animated.Value, Animated.ValueXY]
 > => {
+  const SCREEN = useWindowDimensions();
+  const SCREEN_WIDTH = SCREEN.width;
+  const SCREEN_HEIGHT = SCREEN.height;
+  const MIN_DIMENSION = Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
   let numberInitialTouches = 1;
   let initialTouches: NativeTouchEvent[] = [];
   let currentScale = initialScale;
@@ -280,9 +280,8 @@ const usePanResponder = ({
       if (isTapGesture && currentScale > initialScale) {
         const { x, y } = currentTranslate;
         const { dx, dy } = gestureState;
-        const [topBound, leftBound, bottomBound, rightBound] = getBounds(
-          currentScale
-        );
+        const [topBound, leftBound, bottomBound, rightBound] =
+          getBounds(currentScale);
 
         let nextTranslateX = x + dx;
         let nextTranslateY = y + dy;
@@ -347,9 +346,8 @@ const usePanResponder = ({
 
       if (tmpTranslate) {
         const { x, y } = tmpTranslate;
-        const [topBound, leftBound, bottomBound, rightBound] = getBounds(
-          currentScale
-        );
+        const [topBound, leftBound, bottomBound, rightBound] =
+          getBounds(currentScale);
 
         let nextTranslateX = x;
         let nextTranslateY = y;

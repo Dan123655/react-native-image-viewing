@@ -12,6 +12,10 @@ export type Dimensions = {
   width: number;
   height: number;
 };
+export type DimensionsStylesProps = {
+  SCREEN_WIDTH: number;
+  SCREEN_HEIGHT: number;
+};
 
 export type Position = {
   x: number;
